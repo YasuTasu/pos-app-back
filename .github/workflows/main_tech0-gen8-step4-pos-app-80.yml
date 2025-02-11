@@ -1,4 +1,3 @@
-# Azure Web Apps Deploy Action for FastAPI
 name: Build and deploy FastAPI app to Azure Web App - tech0-gen8-step4-pos-app-80
 
 on:
@@ -11,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read # Required for actions/checkout
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
