@@ -17,18 +17,24 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Verify repository contents
-        run: ls -l # 確認のために出力
+        run: ls -R # 全てのファイルを確認
 
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
           python-version: "3.11"
 
+      - name: Ensure requirements.txt exists before installing
+        run: |
+          if [ ! -f backend/app/requirements.txt ]; then 
+            echo "❌ requirements.txt が見つかりません！"; 
+            exit 1; 
+          fi
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          if [ ! -f requirements.txt ]; then echo "requirements.txt が見つかりません"; exit 1; fi
-          pip install -r requirements.txt
+          pip install -r backend/app/requirements.txt
 
       - name: Zip artifact for deployment
         run: zip -r release.zip ./
