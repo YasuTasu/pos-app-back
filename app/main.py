@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from app.routes import product, sale
-from app.database import get_db  # engine, Base の import は不要になった
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -9,10 +8,15 @@ app = FastAPI()
 app.include_router(product.router)
 app.include_router(sale.router)
 
+# 本番環境では特定のフロントエンドのみ許可
+origins = [
+    "https://tech0-gen8-step4-pos-app-79.azurewebsites.net"
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # すべてのオリジンを許可（本番環境では制限する）
+    allow_origins=origins,  # 許可するオリジンを設定
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  # 全てのHTTPメソッド（GET, POST, PUT, DELETEなど）を許可
+    allow_headers=["*"],  # 全てのヘッダーを許可
 )
